@@ -14,4 +14,4 @@ springdoc:
 findex:
   openapi:
     base-url: https://apis.data.go.kr/1160100/service
-    service-key: ${OPENAPI_SERVICE_KEY:}
+    service-key: 0af09ae64845fbe85b981f8ddcf00a5a83c90fc014f006f87a51343cb874af75
