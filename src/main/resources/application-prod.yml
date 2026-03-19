@@ -8,7 +8,9 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:postgresql://postgres:ymSzmrMDpYYDqajCXaXgNEzdwLXJaZAs@postgres.railway.internal:5432/railway
+    url: jdbc:postgresql://postgres.railway.internal:5432/railway
+    username: postgres
+    password: ymSzmrMDpYYDqajCXaXgNEzdwLXJaZAs
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
