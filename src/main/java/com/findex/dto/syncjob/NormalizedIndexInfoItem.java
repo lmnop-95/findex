@@ -1,5 +1,6 @@
 package com.findex.dto.syncjob;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,7 +10,7 @@ public record NormalizedIndexInfoItem (
     String indexName,
     Integer employedItemsCount,
     LocalDate basePointInTime,
-    Integer baseIndex
+    BigDecimal baseIndex
 ) {
 
     public static NormalizedIndexInfoItem from(OpenApiIndexInfoItem item) {
@@ -17,7 +18,7 @@ public record NormalizedIndexInfoItem (
         final String indexName = normIndexInfo(item.idxNm());
         final Integer employedItemsCount = item.epyItmsCnt();
         final LocalDate basePointInTime = parseDate(item.basPntm());
-        final Integer baseIndex = item.basIdx();
+        final BigDecimal baseIndex = item.basIdx();
 
         if (indexClassification == null || indexName == null ||
             employedItemsCount == null || basePointInTime == null || baseIndex == null) {

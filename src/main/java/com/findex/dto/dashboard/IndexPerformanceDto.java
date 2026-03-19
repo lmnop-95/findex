@@ -6,8 +6,8 @@ public record IndexPerformanceDto(
     Long indexInfoId,
     String indexClassification,
     String indexName,
-    BigDecimal currentPrice,
-    BigDecimal beforePrice,
     BigDecimal versus,
-    BigDecimal fluctuationRate) {
+    BigDecimal fluctuationRate,
+    BigDecimal currentPrice,
+    BigDecimal beforePrice) {
 }

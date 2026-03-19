@@ -6,11 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.findex.config.OpenApiProperties;
 import com.findex.dto.syncjob.OpenApiIndexDataItem;
 import com.findex.dto.syncjob.OpenApiIndexInfoItem;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,6 +13,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -120,9 +121,9 @@ public class MarketIndexClient {
         return new OpenApiIndexInfoItem(
             text(n, "idxCsf"),
             text(n, "idxNm"),
-            integer(n, "epyItmsCnt"),
+            integer(n),
             text(n, "basPntm"),
-            integer(n, "basIdx")
+            decimal(n, "basIdx")
         );
     }
 
@@ -158,8 +159,8 @@ public class MarketIndexClient {
         return null;
     }
 
-    private static Integer integer(JsonNode n, String... fields) {
-        String s = text(n, fields);
+    private static Integer integer(JsonNode n) {
+        String s = text(n, "epyItmsCnt");
         if (s == null) return null;
         try { return Integer.valueOf(s.replaceAll(",", "")); }
         catch (Exception e) { return null; }

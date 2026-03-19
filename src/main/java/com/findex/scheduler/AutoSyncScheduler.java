@@ -24,7 +24,7 @@ public class AutoSyncScheduler {
     private final SyncJobRepository syncJobRepository;
     private final SyncJobService syncJobService;
 
-    @Scheduled(cron = "0 5 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "${findex.sync.cron:0 5 0 * * *}", zone = "Asia/Seoul")
     public void runDaily() {
         LocalDate to = LocalDate.now();
 
@@ -39,7 +39,7 @@ public class AutoSyncScheduler {
         int ok = 0, fail = 0;
         for (Long id : ids) {
             try {
-                LocalDate last = syncJobRepository.findLastAutoTargetDate(id, JobType.INDEX_DATA, "scheduler");
+                LocalDate last = syncJobRepository.findLastAutoTargetDate(id, JobType.INDEX_DATA, "system");
                 // 마지막 기록이 없으면 기본 lookback 사용
                 LocalDate from = (last != null) ? last : to.minusDays(DEFAULT_LOOKBACK_DAYS);
 
@@ -50,7 +50,7 @@ public class AutoSyncScheduler {
                 }
 
                 IndexDataOpenApiSyncRequest req = new IndexDataOpenApiSyncRequest(List.of(id), from, to);
-                List<SyncJobDto> jobs = syncJobService.syncIndexData(req, "scheduler");
+                List<SyncJobDto> jobs = syncJobService.syncIndexData(req, "system");
 
                 ok++;
                 log.info("[auto-sync] id={} range=[{}..{}] -> jobs={}", id, from, to, jobs.size());

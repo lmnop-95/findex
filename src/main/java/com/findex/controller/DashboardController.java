@@ -6,14 +6,11 @@ import com.findex.dto.dashboard.RankedIndexPerformanceDto;
 import com.findex.enums.ChartPeriodType;
 import com.findex.enums.PeriodType;
 import com.findex.service.DashboardService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,19 +29,20 @@ public class DashboardController {
 
     @GetMapping("/{id}/chart")
     public ResponseEntity<IndexChartDto> getChartData(
-        @PathVariable("id") Long id,
+        @PathVariable Long id,
         @RequestParam(defaultValue = "MONTHLY") ChartPeriodType periodType
     ) {
         IndexChartDto result = dashboardService.getChartData(id, periodType);
         return ResponseEntity.ok(result);
     }
-    
+
     @GetMapping("/performance/rank")
     public ResponseEntity<List<RankedIndexPerformanceDto>> getPerformanceRank(
+        @RequestParam(required = false) Long indexInfoId,
         @RequestParam(defaultValue = "DAILY") PeriodType periodType,
         @RequestParam(defaultValue = "10") int limit
     ) {
-        List<RankedIndexPerformanceDto> result = dashboardService.getPerformanceRank(periodType, limit);
+        List<RankedIndexPerformanceDto> result = dashboardService.getPerformanceRank(indexInfoId, periodType, limit);
         return ResponseEntity.ok(result);
     }
 }

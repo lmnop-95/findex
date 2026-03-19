@@ -68,10 +68,10 @@ public class DashboardService {
                     indexInfo.getId(),
                     indexInfo.getIndexClassification(),
                     indexInfo.getIndexName(),
-                    currentPrice,
-                    beforePrice,
                     versus,
-                    fluctuationRate
+                    fluctuationRate,
+                    currentPrice,
+                    beforePrice
                 );
             })
             .collect(Collectors.toList());
@@ -131,7 +131,7 @@ public class DashboardService {
         return sum.divide(new BigDecimal(days), CHART_CALCULATION_SCALE, RoundingMode.HALF_UP);
     }
 
-    public List<RankedIndexPerformanceDto> getPerformanceRank(PeriodType periodType, int limit) {
+    public List<RankedIndexPerformanceDto> getPerformanceRank(Long indexInfoId, PeriodType periodType, int limit) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = switch (periodType) {
             case DAILY -> currentDate.minusDays(1);
@@ -143,6 +143,7 @@ public class DashboardService {
             currentDate, beforeDate);
 
         List<IndexPerformanceDto> sortedPerformances = rawDataList.stream()
+            .filter(raw -> indexInfoId == null || raw.indexInfo().getId().equals(indexInfoId))
             .map(raw -> {
                 BigDecimal currentPrice = Optional.ofNullable(raw.currentPrice()).orElse(BigDecimal.ZERO);
                 BigDecimal beforePrice = Optional.ofNullable(raw.beforePrice()).orElse(BigDecimal.ZERO);
@@ -156,10 +157,10 @@ public class DashboardService {
                     raw.indexInfo().getId(),
                     raw.indexInfo().getIndexClassification(),
                     raw.indexInfo().getIndexName(),
-                    currentPrice,
-                    beforePrice,
                     versus,
-                    fluctuationRate
+                    fluctuationRate,
+                    currentPrice,
+                    beforePrice
                 );
             })
             .filter(p -> p.fluctuationRate() != null)
@@ -169,7 +170,7 @@ public class DashboardService {
 
 
         return IntStream.range(0, sortedPerformances.size())
-            .mapToObj(i -> new RankedIndexPerformanceDto(i + 1, sortedPerformances.get(i)))
+            .mapToObj(i -> new RankedIndexPerformanceDto(sortedPerformances.get(i), i + 1))
             .toList();
     }
 }

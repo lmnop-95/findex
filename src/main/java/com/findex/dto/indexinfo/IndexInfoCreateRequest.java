@@ -2,6 +2,7 @@ package com.findex.dto.indexinfo;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record IndexInfoCreateRequest(
@@ -12,12 +13,14 @@ public record IndexInfoCreateRequest(
     @NotBlank
     String indexName,
 
-    int employedItemsCount,
+    @NotNull
+    Integer employedItemsCount,
 
     @NotNull
     LocalDate basePointInTime,
 
-    int baseIndex,
+    @NotNull
+    BigDecimal baseIndex,
 
     Boolean favorite
 ) {}

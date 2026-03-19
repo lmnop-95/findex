@@ -1,6 +1,7 @@
 package com.findex.dto.indexinfo;
 
 import com.findex.enums.IndexSourceType;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record IndexInfoDto(
@@ -9,7 +10,7 @@ public record IndexInfoDto(
     String indexName,
     Integer employedItemsCount,
     LocalDate basePointInTime,
-    Integer baseIndex,
+    BigDecimal baseIndex,
     IndexSourceType sourceType,
     boolean favorite
 ) {}

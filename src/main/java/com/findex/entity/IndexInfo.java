@@ -1,22 +1,14 @@
 package com.findex.entity;
 
-import static com.findex.util.StringUtil.requireNonBlank;
-
 import com.findex.entity.base.BaseEntity;
 import com.findex.enums.IndexSourceType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+
+import static com.findex.util.StringUtil.requireNonBlank;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,7 +25,7 @@ public class IndexInfo extends BaseEntity {
 
     private LocalDate basePointInTime;
 
-    private Integer baseIndex;
+    private BigDecimal baseIndex;
 
     @Enumerated(EnumType.STRING)
     private IndexSourceType sourceType;
@@ -53,7 +45,7 @@ public class IndexInfo extends BaseEntity {
         @NonNull String indexName,
         @NonNull Integer employedItemsCount,
         @NonNull LocalDate basePointInTime,
-        @NonNull Integer baseIndex,
+        @NonNull BigDecimal baseIndex,
         @NonNull IndexSourceType sourceType,
         @NonNull Boolean favorite
     ) {
@@ -67,10 +59,10 @@ public class IndexInfo extends BaseEntity {
         this.autoSyncConfig = new AutoSyncConfig(false, this);
     }
 
-    public IndexInfo update(
+    public void update(
         Integer employedItemsCount,
         LocalDate basePointInTime,
-        Integer baseIndex,
+        BigDecimal baseIndex,
         Boolean favorite
     ) {
         if (employedItemsCount != null) {
@@ -85,6 +77,5 @@ public class IndexInfo extends BaseEntity {
         if (favorite != null) {
             this.favorite = favorite;
         }
-        return this;
     }
 }
