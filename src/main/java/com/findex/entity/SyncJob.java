@@ -29,7 +29,7 @@ public class SyncJob extends BaseEntity {
     @Column(name = "job_type", length = 10, nullable = false)
     private JobType jobType; // ENUM(INDEX_INFO, INDEX_DATA)
 
-    @Column(name = "target_date", nullable = false)
+    @Column(name = "target_date")
     private LocalDate targetDate; // 대상날짜 (범위 요청이면 관례상 'to' 저장)
 
     @Column(name = "worker", length = 100, nullable = false)
